@@ -1,0 +1,47 @@
+[
+  {
+    "title": "producto prueba",
+    "description": "Es una coca cola",
+    "price": 200,
+    "thumbnail": "Sin imagen",
+    "code": "code1",
+    "stock": 25,
+    "id": 1
+  },
+  {
+    "title": "producto prueba 2",
+    "description": "Este es un producto prueba 2",
+    "price": 350,
+    "thumbnail": "Sin imagen",
+    "code": "code2",
+    "stock": 45,
+    "id": 2
+  },
+  {
+    "title": "producto prueba 3",
+    "description": "Este es un producto prueba 3",
+    "price": 350,
+    "thumbnail": "Sin imagen",
+    "code": "code3",
+    "stock": 45,
+    "id": 3
+  },
+  {
+    "title": "producto prueba 4",
+    "description": "Este es un producto prueba 4",
+    "price": 350,
+    "thumbnail": "Sin imagen",
+    "code": "code4",
+    "stock": 45,
+    "id": 4
+  },
+  {
+    "title": "producto prueba 5",
+    "description": "Este es un producto prueba 5",
+    "price": 350,
+    "thumbnail": "Sin imagen",
+    "code": "code5",
+    "stock": 45,
+    "id": 5
+  }
+]
