@@ -66,7 +66,7 @@ class ProductManager {
 
     async saveProducts(products) {
         return fs.promises.writeFile(this.path, JSON.stringify(products), this.#encoding)
-            .then(p => {
+            .then(() => {
                 return 'Successfully saved the products.';
             }).catch(err => {
                 return err
@@ -99,14 +99,17 @@ class ProductManager {
 
         const products = await this.getProducts();
 
-        const productIndex = products.findIndex(p => p.id == productId);
+        if(isNaN(Number(productId)))
+            return 'Product ID must be a number.';
+
+        const productIndex = products.findIndex(p => p.id === productId);
 
         if (productIndex === -1)
             return console.log('Product not found');
 
         products.splice(productIndex, 1);
 
-        this.saveProducts(products);
+        await this.saveProducts(products);
 
         return `Successfully deleted product ${productId}.`;
     }
@@ -115,21 +118,24 @@ class ProductManager {
 
         const products = await this.getProducts();
 
-        const productIndex = products.findIndex(p => p.id === productId);
+        if(isNaN(Number(productId)))
+            return 'Product ID must be a number.';
+
+        const productIndex = products.findIndex(p => p.id === Number(productId));
 
         if (productIndex === -1)
             return console.log('Not found');
 
         products[productIndex][prop] = newValue;
 
-        this.saveProducts(products);
+        await this.saveProducts(products);
     }
 
     async getProducts(limit) {
 
         return fs.promises.readFile(this.path, this.#encoding)
             .then(p => {
-                return JSON.parse(p).slice(0, limit);
+                return new Array(JSON.parse(p)).slice(0, limit);
             }).catch(err => {
                 return err
             });
@@ -139,12 +145,12 @@ class ProductManager {
 
         const products = await this.getProducts();
 
-        const product = products.find(p => p.id == productId);
+       if(isNaN(Number(productId)))
+           return 'Product ID must be a number.';
 
-        if (!product)
-            return 'Not found';
+        const product = products.find(p => p.id === Number(productId));
 
-        return product;
+        return product ?? 'Not found';
     }
 }
 

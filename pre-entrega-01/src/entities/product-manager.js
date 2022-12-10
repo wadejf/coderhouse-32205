@@ -23,37 +23,10 @@ export default class ProductManager {
 
     async isValidProduct(product) {
 
-        if (product.title?.trim() === '') {
-            console.log('ERROR. Detalle: El título no puede estar vacío.');
-            return false;
-        }
+        //TODO validar campos
+        //Object.keys(product).filter(f => f);
 
-        if (product.description?.trim() === '') {
-            console.log('ERROR. Detalle: La descripción no puede estar vacía.');
-            return false;
-        }
-
-        if (!product.price) {
-            console.log('ERROR. Detalle: El precio no puede estar vacío.');
-            return false;
-        }
-
-        if (product.thumbnail?.trim() === '') {
-            console.log('ERROR. Detalle: La ruta de imagen no puede estar vacía.');
-            return false;
-        }
-
-        if (product.code?.trim() === '') {
-            console.log('ERROR. Detalle: El código no puede estar vacío');
-            return false;
-        }
-
-        if (!product.stock) {
-            console.log('ERROR. Detalle: El stock no puede estar vacío.');
-            return false;
-        }
-
-        const products = await this.getProducts()
+        const products = await this.getProducts();
 
         if (products.findIndex(p => p.code === product.code) !== -1) {
             console.log(`ERROR. Detalle: El objeto con el código: ${product.code} ya existe.`)
@@ -72,15 +45,17 @@ export default class ProductManager {
             });
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
+    async addProduct(p) {
 
         const product = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
+            title: p.title,
+            description: p.description,
+            code: p.code,
+            price: p.price,
+            status: true,
+            stock: p.stock,
+            category: p.category,
+            thumbnails: p.thumbnails,
         };
 
         if (await this.isValidProduct(product)) {

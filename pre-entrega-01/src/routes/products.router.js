@@ -8,12 +8,16 @@ productsRouter.get('/', async (req, res) => {
     res.send(await productManager.getProducts(req.query.limit));
 });
 
-productsRouter.post('/', (req, res) => {
-    res.send('Creando un nuevo producto..');
+productsRouter.get('/:id', async (req, res) => {
+    res.send(await productManager.getProductById(req.params.id));
 });
 
-productsRouter.get('/:id', (req, res) => {
-    res.send(`Obteniendo el producto con id:  ${req.params.id}`);
+productsRouter.post('/', async (req, res) => {
+   await productManager.addProduct(req.body)
+});
+
+productsRouter.delete('/:id', async (req, res) => {
+    res.send(await productManager.getProductById(req.params.id));
 });
 
 export default productsRouter;

@@ -8,4 +8,4 @@ const port = 3000
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-app.listen(port);
+app.listen(port, () => { console.log(`Servidor escuchando en puerto ${port}`); });
