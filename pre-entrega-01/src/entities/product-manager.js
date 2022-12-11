@@ -21,33 +21,28 @@ export default class ProductManager {
         return products.length > 0 ? products[products.length - 1].id + 1 : 1;
     }
 
-    async isValidProduct(product) {
+    async validateProduct(product) {
 
         //TODO validar campos
         //Object.keys(product).filter(f => f);
 
         const products = await this.getProducts();
 
-        if (products.findIndex(p => p.code === product.code) !== -1) {
-            console.log(`ERROR. Detalle: El objeto con el código: ${product.code} ya existe.`)
-            return false;
-        }
-
-        return true;
+        return products.findIndex(p => p.code === product.code) === -1;
     }
 
     async saveProducts(products) {
         return fs.promises.writeFile(this.path, JSON.stringify(products), this.#encoding)
-            .then(p => {
-                return 'Successfully saved the products.';
-            }).catch(err => {
-                return err
+            .then(() => console.log('Successfully saved the products'))
+            .catch(() => {
+                throw {status: 500, message: 'An error ocurred while saving the products'}
             });
     }
 
     async addProduct(p) {
 
         const product = {
+            id: await this.getNextId(),
             title: p.title,
             description: p.description,
             code: p.code,
@@ -58,15 +53,15 @@ export default class ProductManager {
             thumbnails: p.thumbnails,
         };
 
-        if (await this.isValidProduct(product)) {
-            product.id = await this.getNextId();
+        await this.validateProduct(product);
 
-            const products = await this.getProducts();
+        const products = await this.getProducts();
 
-            products.push(product);
+        products.push(product);
 
-            await this.saveProducts(products);
-        }
+        await this.saveProducts(products);
+
+        return product.id;
     }
 
     async deleteProduct(productId) {
@@ -76,36 +71,40 @@ export default class ProductManager {
         const productIndex = products.findIndex(p => p.id == productId);
 
         if (productIndex === -1)
-            return console.log('Product not found');
+            throw { status: 404, message: 'Product not found.' }
 
         products.splice(productIndex, 1);
 
         await this.saveProducts(products);
 
-        return `Successfully deleted product ${productId}.`;
+        return productId;
     }
 
-    async updateProduct(productId, prop, newValue) {
+    async updateProduct(id, obj) {
 
         const products = await this.getProducts();
 
-        const productIndex = products.findIndex(p => p.id === productId);
+        const index = products.findIndex(p => p.id === productId);
 
-        if (productIndex === -1)
-            return console.log('Not found');
+        if (index === -1)
+            throw { status: 404, message: 'Product not found' }
 
-        products[productIndex][prop] = newValue;
+        products[index] = {
+            ...products[index],
+            ...obj,
+            id: products[index].id
+        };
 
         await this.saveProducts(products);
+
+        return products[index];
     }
 
     async getProducts(limit) {
-
         return fs.promises.readFile(this.path, this.#encoding)
-            .then(p => {
-                return JSON.parse(p).slice(0, limit);
-            }).catch(err => {
-                return err
+            .then(p => JSON.parse(p).slice(0, limit))
+            .catch(() => {
+                throw { status: 500, message: 'An error ocurred while retrieving the products' }
             });
     }
 
@@ -116,7 +115,7 @@ export default class ProductManager {
         const product = products.find(p => p.id == productId);
 
         if (!product)
-            return 'Not found';
+            throw { status: 404, message: 'Product not found' }
 
         return product;
     }
