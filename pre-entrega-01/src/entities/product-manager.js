@@ -23,12 +23,18 @@ export default class ProductManager {
 
     async validateProduct(product) {
 
-        //TODO validar campos
-        //Object.keys(product).filter(f => f);
+        const emptyFields = [];
+
+        for (const [k, v] of Object.entries(product))
+            if (!v && k !== 'thumbnails') emptyFields.push(k)
+
+        if (emptyFields.length > 0)
+            throw {status: 400, message: `Required fields missing: ${emptyFields.join(',')}`}
 
         const products = await this.getProducts();
 
-        return products.findIndex(p => p.code === product.code) === -1;
+        if (products.find(p => p.code === product.code))
+            throw {status: 400, message: `The code ${product.code} is already used`}
     }
 
     async saveProducts(products) {
@@ -42,7 +48,6 @@ export default class ProductManager {
     async addProduct(p) {
 
         const product = {
-            id: await this.getNextId(),
             title: p.title,
             description: p.description,
             code: p.code,
@@ -54,6 +59,8 @@ export default class ProductManager {
         };
 
         await this.validateProduct(product);
+
+        product.id = await this.getNextId();
 
         const products = await this.getProducts();
 
@@ -71,7 +78,7 @@ export default class ProductManager {
         const productIndex = products.findIndex(p => p.id == productId);
 
         if (productIndex === -1)
-            throw { status: 404, message: 'Product not found.' }
+            throw {status: 404, message: 'Product not found.'}
 
         products.splice(productIndex, 1);
 
@@ -84,10 +91,10 @@ export default class ProductManager {
 
         const products = await this.getProducts();
 
-        const index = products.findIndex(p => p.id === productId);
+        const index = products.findIndex(p => p.id == id);
 
         if (index === -1)
-            throw { status: 404, message: 'Product not found' }
+            throw {status: 404, message: 'Product not found'}
 
         products[index] = {
             ...products[index],
@@ -104,7 +111,7 @@ export default class ProductManager {
         return fs.promises.readFile(this.path, this.#encoding)
             .then(p => JSON.parse(p).slice(0, limit))
             .catch(() => {
-                throw { status: 500, message: 'An error ocurred while retrieving the products' }
+                throw {status: 500, message: 'An error ocurred while retrieving the products'}
             });
     }
 
@@ -115,7 +122,7 @@ export default class ProductManager {
         const product = products.find(p => p.id == productId);
 
         if (!product)
-            throw { status: 404, message: 'Product not found' }
+            throw {status: 404, message: 'Product not found'}
 
         return product;
     }

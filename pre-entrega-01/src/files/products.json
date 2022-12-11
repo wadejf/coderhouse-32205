@@ -1,1 +1,47 @@
-[{"id":1,"title":"Coca Cola 1.5L","description":"Bebida refrescante","code":"ABC-123","price":350,"status":true,"stock":10,"category":"Bebidas","thumbnails":["URLimagen1","URLimagen2","URLimagen3"]},{"id":3,"title":"Coca Cola 1.5L","description":"Bebida refrescante","code":"ABC-123","price":350,"status":true,"stock":10,"category":"Bebidas","thumbnails":["URLimagen1","URLimagen2","URLimagen3"]},{"id":4,"title":"Coca Cola 1.5L","description":"Bebida refrescante","code":"ABC-123","price":350,"status":true,"stock":10,"category":"Bebidas","thumbnails":["URLimagen1","URLimagen2","URLimagen3"]},{"id":5,"title":"Coca Cola 1.5L","description":"Bebida refrescante","code":"ABC-123","price":350,"status":true,"stock":10,"category":"Bebidas","thumbnails":["URLimagen1","URLimagen2","URLimagen3"]}]
+[
+  {
+    "title": "Coca Cola 1.5L",
+    "description": "Bebida refrescante",
+    "code": "ABC-123",
+    "price": 350,
+    "status": true,
+    "stock": 10,
+    "category": "Bebidas",
+    "thumbnails": [
+      "URLimagen1",
+      "URLimagen2",
+      "URLimagen3"
+    ],
+    "id": 1
+  },
+  {
+    "title": "Coca Cola 1.5L UPDATE",
+    "description": "Bebida refrescante UPDATE",
+    "code": "ABC-1234",
+    "price": 350000,
+    "status": false,
+    "stock": 100,
+    "category": "Bebidas",
+    "thumbnails": [
+      "URLimagen1",
+      "URLimagen2",
+      "URLimagen3"
+    ],
+    "id": 2
+  },
+  {
+    "title": "Coca Cola 1.5L",
+    "description": "Bebida refrescante",
+    "code": "ABC-12345",
+    "price": 350,
+    "status": true,
+    "stock": 10,
+    "category": "Bebidas",
+    "thumbnails": [
+      "URLimagen1",
+      "URLimagen2",
+      "URLimagen3"
+    ],
+    "id": 3
+  }
+]
