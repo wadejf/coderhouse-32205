@@ -1,0 +1,20 @@
+<div>
+    {{#each products}}
+        <label>Título: </label><span>{{this.title}}</span><br />
+        <label>Descripción: </label><span>{{this.description}}</span><br />
+        <label>Código: </label><span>{{this.code}}</span><br />
+        <label>Precio: </label><span>{{this.price}}</span><br />
+        {{#if this.status}}
+            <label>Estado: </label><span>Habilitado</span><br />
+        {{else}}
+            <label>Estado: </label><span>Deshabilitado</span><br />
+        {{/if}}
+        <label>Stock: </label><span>{{this.stock}}</span><br />
+        <label>Categoría: </label><span>{{this.category}}</span><br />
+        <label>Thumbnails: </label><br />
+        {{#each this.thumbnails}}
+            <span>{{this}}</span><br />
+        {{/each }}
+        <hr />
+    {{/each }}
+</div>
